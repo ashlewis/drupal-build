@@ -1,0 +1,46 @@
+#!/bin/bash
+
+# This script creates new vhost
+# it should be run from your new site root directory with:
+# $ ./build/build.site.vhost
+
+# read config
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+
+# if password is passed as arg from parent script - use that, otherwise - request user entry
+if [[ -n $1 ]]; then
+    sudoPassword=$1
+fi
+
+if [[ -z $sudoPassword ]]; then
+    echo "Enter root user password (for sudo)"
+    read -s sudoPassword
+fi
+
+# create vhost config entry
+vhostText='<VirtualHost *:80>
+       DocumentRoot /var/www/'$siteName'/'$webrootDir'/
+       ServerName '$siteUrl'
+         ServerAlias www.'$siteUrl'
+        <Directory /var/www/'$siteName'/'$webrootDir'/>
+                Options +Indexes +FollowSymLinks +MultiViews +Includes
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>'
+
+echo $sudoPassword | sudo -S bash -c "echo '$vhostText' > /etc/apache2/sites-available/$siteUrl.conf"
+
+# Enable the site
+echo $sudoPassword | sudo -S ln -s  /etc/apache2/sites-available/$siteUrl.conf /etc/apache2/sites-enabled/$siteUrl.conf
+
+# Reload Apache2
+echo $sudoPassword | sudo -S bash -c "/etc/init.d/apache2 restart"
+
+echo "add <your_ip> $siteUrl and <your_ip> www.$siteUrl to your host OS' host file and boom your new site is available at http://$siteUrl and http://www.$siteUrl"

@@ -1,0 +1,20 @@
+#!/bin/bash
+
+# This script creates new mysql db and user
+# you should run it from your new site root directory
+# and run it with:
+# $ build.site.db
+
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+Q1="CREATE DATABASE IF NOT EXISTS $dbName;"
+Q2="GRANT ALL ON $dbName.* TO '$dbUser'@'localhost' IDENTIFIED BY '$dbPassword';"
+Q3="GRANT RELOAD ON *.* TO '$dbUser'@'localhost';"
+Q4="FLUSH PRIVILEGES;"
+SQL="${Q1}${Q2}${Q3}${Q4}"
+
+mysql -u$mysqlUser -p$mysqlPassword -e "$SQL"

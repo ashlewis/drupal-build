@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# This script creates new mysql db, drupal install and vhosts
+# it should be run from your new site root directory and run with:
+# $ ./build/build.site
+
+
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+echo "Enter root user password (for sudo)"
+read -s sudoPassword
+
+echo "creating db..."
+./build/build.site.db
+
+echo "creating drupal install..."
+./build/build.site.drupal $sudoPassword
+
+echo "updating file permissions..."
+./build/build.site.perm $sudoPassword
+
+echo "creating vhosts..."
+./build/build.site.vhost $sudoPassword
