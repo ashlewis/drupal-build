@@ -17,6 +17,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd $siteRootDir;
 
+    echo "backing up db..."
+    drush sql-dump --result-file=$privateDir/drush.dump.sql
+
     echo "sync'ing db..."
     drush sql-sync @$siteName.staging @$siteName.dev -y
 
