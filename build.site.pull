@@ -17,6 +17,9 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd $siteRootDir;
 
+    echo "clearing staging cache..."
+    drush @$siteName.staging cc all
+
     echo "backing up db..."
     drush sql-dump --result-file=../$privateDir/drush.dump.sql
 
