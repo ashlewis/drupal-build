@@ -15,7 +15,8 @@ read -p "This will overwrite local files and db with that from satging - Are you
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]
 then
-
+    cd $siteRootDir;
+    
     echo "sync'ing db..."
     drush sql-sync @$siteName.staging @$siteName.dev -y
 
