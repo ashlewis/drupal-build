@@ -1,0 +1,28 @@
+#!/bin/bash
+
+# This script pulls db and files from staging
+# it should be run from your new site root directory and run with:
+# $ ./build/build.site.pull
+
+
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+read -p "This will overwrite local files and db with that from satging - Are you sure? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]
+then
+
+    echo "sync'ing db..."
+    drush sql-sync @$siteName.staging @$siteName.dev -y
+
+    echo "sync'ing files..."
+    drush rsync @$siteName.staging @$siteName.dev -y
+
+    echo "clearing cache..."
+    drush cc all
+
+fi
