@@ -1,0 +1,25 @@
+#!/bin/bash
+
+# This script creates new vhost
+# it should be run from your new site root directory with:
+# $ ./build/build.site.vhost
+
+# read config
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+
+echo 'generating makefile...'
+
+makeFileText='core = 7.x\n
+api = 2\n
+projects[drupal][version] = "'$drupalCoreVersion'"\n
+projects[s8080][type] = "profile"\n
+projects[s8080][download][type] = "git"\n
+projects[s8080][download][url] = "https://github.com/ashlewis/s8080.git"\n
+projects[s8080][download][tag] = "'$profileVersion'"'
+
+echo -e $makeFileText > ./build/build.site.make
