@@ -46,3 +46,6 @@ stagingWebRootDir="/var/www"
 
 prodWebRootDir="/var/www"
 
+drupalCoreVersion="7.28"
+
+profileVersion="v0.0.5"

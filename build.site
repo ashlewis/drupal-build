@@ -14,6 +14,9 @@ fi
 echo "Enter root user password (for sudo)"
 read -s sudoPassword
 
+echo "generating makefile..."
+./build/build.site.make.generate
+
 echo "creating db..."
 ./build/build.site.db
 
