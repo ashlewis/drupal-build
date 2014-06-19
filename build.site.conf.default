@@ -1,27 +1,27 @@
 # drupal site name and name of top level directory where site will live
-siteName="migrate"
+siteName="site"
 
 # site url (e.g. example.com)
-siteUrl="migrate.local.dev"
+siteUrl="site.local.dev"
 
 # drupal super user account name
-accountName="s8080_admin"
+accountName="admin"
 
 # drupal super user account password
 accountPassword="password"
 
 # drupal db schema name
-dbName="migrate"
+dbName="site"
 
 # drupal db user
-dbUser="migrate_user"
+dbUser="site_user"
 
 # drupal db password
 dbPassword="password"
 
 # mysql root user details (may not be required)
 mysqlUser="root"
-mysqlPassword="thehumbl351"
+mysqlPassword="password"
 
 # drupal webroot directory
 siteRootDir="httpdocs"
