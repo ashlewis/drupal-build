@@ -24,10 +24,10 @@ fi
 
 # create vhost config entry
 vhostText='<VirtualHost *:80>
-       DocumentRoot /var/www/'$siteName'/'$siteRootDir'/
+       DocumentRoot /var/www/'$siteRootDirMultisite'/
        ServerName '$siteUrl'
          ServerAlias www.'$siteUrl'
-        <Directory /var/www/'$siteName'/'$siteRootDir'/>
+        <Directory /var/www/'$siteRootDirMultisite'/>
                 Options +Indexes +FollowSymLinks +MultiViews +Includes
                 AllowOverride All
                 Order allow,deny

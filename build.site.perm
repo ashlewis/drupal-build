@@ -22,11 +22,11 @@ if [[ -z $sudoPassword ]]; then
 fi
 
 # file system
-echo $sudoPassword | sudo -S chown -R $linuxDevUser:$linuxApacheUser ./$webrootDir
+echo $sudoPassword | sudo -S chown -R $linuxDevUser:$linuxApacheUser ./$siteRootDir
 
 
-if [[ -d ./$webrootDir/sites/default/files ]]; then
-    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$webrootDir/sites/default/files
+if [[ -d ./$siteRootDir/sites/default/files ]]; then
+    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$siteRootDir/sites/default/files
 fi
 
 mkdir ./$privateDir

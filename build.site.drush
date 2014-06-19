@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# This script syncs a new local drupal install with staging
+# it should be run from your new site root directory with:
+# $ ./build/build.site.sync
+
+#read config
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+# if password is passed as arg from parent script - use that, otherwise - request user entry
+if [[ -n $1 ]]; then
+    sudoPassword=$1
+fi
+
+if [[ -z $sudoPassword ]]; then
+    echo "Enter root user password (for sudo)"
+    read -s sudoPassword
+fi
+
+
+echo "fetching common drush files from git repo..."
+# todo
+
+
+echo "creating site specific drush file..."
+#todo - see required content example below
+drushrcText='<VirtualHost *:80>
+       DocumentRoot /var/www/'$siteName'/'$siteRootDir'/
+       ServerName '$siteUrl'
+         ServerAlias www.'$siteUrl'
+        <Directory /var/www/'$siteName'/'$siteRootDir'/>
+                Options +Indexes +FollowSymLinks +MultiViews +Includes
+                AllowOverride All
+                Order allow,deny
+                allow from all
+        </Directory>
+</VirtualHost>'
+
+echo $sudoPassword | sudo -S bash -c "echo '$drushrcText' > /var/www/'$siteName'/'$siteRootDir'/sites/all/drush/'$siteName'.aliases.drushrc.php"
+
+#required content example
+$aliases["dev"] = array (
+  'root' => '/var/www/figo/httpdocs',
+  'uri' => 'http://figo.local.dev',
+  '#name' => 'dev'
+);
+
+$aliases["staging"] = array (
+  'root' => '/var/www/vhosts/figo.mypreviewurl.co.uk/httpdocs',
+  'uri' => 'http://figo.mypreviewurl.co.uk',
+  '#name' => 'staging',
+  // FQDN or IP of server hosting site (think ssh user@remote-host) 
+  'remote-host' => '5.79.12.110',
+  // A user on the remote host for which you have an ssh key set up 
+  'remote-user' => 'root'
+);

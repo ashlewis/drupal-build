@@ -24,9 +24,10 @@ fi
 # make
 echo "running make..."
 
-drush make --working-copy --concurrency=5 ./build/build.site.$distro.make ./$webrootDir/
+drush make --working-copy --concurrency=5 ./build/build.site.$distro.make ./$siteRootDir/
 
-cd ./$webrootDir
+# enter root dir
+cd ./$siteRootDir
 
 # install
 echo "running install..."

@@ -1,0 +1,30 @@
+#!/bin/bash
+
+# This script syncs a new local drupal install with staging
+# it should be run from your new site root directory with:
+# $ ./build/build.site.sync
+
+#read config
+CONFIG_FILE=./build/build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+# if password is passed as arg from parent script - use that, otherwise - request user entry
+if [[ -n $1 ]]; then
+    sudoPassword=$1
+fi
+
+if [[ -z $sudoPassword ]]; then
+    echo "Enter root user password (for sudo)"
+    read -s sudoPassword
+fi
+
+# make
+echo "sync'ing db..."
+drush sql-sync @$siteName.staging @$siteName.dev -y
+
+
+echo "sync'ing files..."
+drush rsync @$siteName.staging:%files @$siteName.dev:%files
