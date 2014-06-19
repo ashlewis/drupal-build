@@ -24,7 +24,7 @@ fi
 # make
 echo "running make..."
 
-drush make --working-copy --concurrency=5 ./build/build.site.$distro.make ./$siteRootDir/
+drush make --working-copy --concurrency=5 ./build/build.site.make ./$siteRootDir/
 
 # enter root dir
 cd ./$siteRootDir

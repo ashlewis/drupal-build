@@ -19,7 +19,7 @@ api = 2\n
 projects[drupal][version] = "'$drupalCoreVersion'"\n
 projects[s8080][type] = "profile"\n
 projects[s8080][download][type] = "git"\n
-projects[s8080][download][url] = "https://github.com/ashlewis/s8080.git"\n
+projects[s8080][download][url] = "https://github.com/ashlewis/'$distro'.git"\n
 projects[s8080][download][tag] = "'$profileVersion'"'
 
 echo -e $makeFileText > ./build/build.site.make
