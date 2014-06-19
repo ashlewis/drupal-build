@@ -24,10 +24,10 @@ then
     drush sql-dump --result-file=../$privateDir/drush.dump.sql
 
     echo "sync'ing db..."
-    drush sql-sync @$siteName.staging @$siteName.dev -y --no-cache
+    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache
 
     echo "sync'ing files..."
-    drush rsync @$siteName.staging:%files/ @$siteName.dev:%files/ -y
+    drush -y rsync @$siteName.staging:%files/ @$siteName.dev:%files/
 
     echo "clearing cache..."
     drush cc all
