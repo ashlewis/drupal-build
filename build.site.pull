@@ -24,7 +24,7 @@ then
     drush sql-dump --result-file=../$privateDir/drush.dump.sql
 
     echo "sync'ing db..."
-    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache
+    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache --create-db
 
     echo "sync'ing files..."
     drush -y rsync @$siteName.staging:%files/ @$siteName.dev:%files/
