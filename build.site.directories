@@ -30,7 +30,7 @@ if [[ -d ./$siteRootDir/sites/default/files ]]; then
 fi
 
 if [[ ! -d ./sites ]]; then
-    mv ./$siteRootDir/sites ./ -R
+    mv ./$siteRootDir/sites ./
 fi
 
 ln -s ./sites ./$siteRootDir/sites
