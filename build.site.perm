@@ -30,6 +30,7 @@ if [[ -d ./$siteRootDir/sites/default/files ]]; then
 fi
 
 mkdir ./$privateDir
+mkdir ./$privateDir/drush_dump
 
 if [[ -d ./$privateDir ]]; then
     echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$privateDir

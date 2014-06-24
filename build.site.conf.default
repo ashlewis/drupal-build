@@ -1,3 +1,8 @@
+
+drupalCoreVersion="7.28"
+
+profileVersion="v0.0.5"
+
 # drupal site name and name of top level directory where site will live
 siteName="site"
 
@@ -42,10 +47,12 @@ linuxApacheUser="www-data"
 # web webroot directory
 devWebRootDir="/var/www"
 
-stagingWebRootDir="/var/www"
+stagingWebRootDir="/var/www/vhosts"
+stagingSiteUrl="figo.mypreviewurl.co.uk"
+stagingSiteName="figo.mypreviewurl.co.uk"
+stagingHostIp="5.79.12.110"
 
 prodWebRootDir="/var/www"
-
-drupalCoreVersion="7.28"
-
-profileVersion="v0.0.5"
+prodSiteUrl=""
+prodSiteName=""
+prodHostIp=""

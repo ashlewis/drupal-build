@@ -23,38 +23,32 @@ fi
 
 
 echo "fetching common drush files from git repo..."
-# todo
-
+cp ./build/drush ./$siteRootDir/sites/all/ -R
 
 echo "creating site specific drush file..."
-#todo - see required content example below
-drushrcText='<VirtualHost *:80>
-       DocumentRoot /var/www/'$siteName'/'$siteRootDir'/
-       ServerName '$siteUrl'
-         ServerAlias www.'$siteUrl'
-        <Directory /var/www/'$siteName'/'$siteRootDir'/>
-                Options +Indexes +FollowSymLinks +MultiViews +Includes
-                AllowOverride All
-                Order allow,deny
-                allow from all
-        </Directory>
-</VirtualHost>'
 
-echo $sudoPassword | sudo -S bash -c "echo '$drushrcText' > /var/www/'$siteName'/'$siteRootDir'/sites/all/drush/'$siteName'.aliases.drushrc.php"
+drushrcText="<?php
 
-#required content example
-$aliases["dev"] = array (
-  'root' => '/var/www/figo/httpdocs',
-  'uri' => 'http://figo.local.dev',
-  '#name' => 'dev'
+\$aliases[\"dev\"] = array (
+  \"root\" => \"$devWebRootDir/$siteName/$siteRootDir\",
+  \"uri\" => \"http://$siteUrl\",
+  \"#name\" => \"dev\",
+  \"path-aliases\" => array(
+    \"%dump-dir\" => \"$devWebRootDir/$siteName/$privateDir/drush_dump\",
+  )
 );
 
-$aliases["staging"] = array (
-  'root' => '/var/www/vhosts/figo.mypreviewurl.co.uk/httpdocs',
-  'uri' => 'http://figo.mypreviewurl.co.uk',
-  '#name' => 'staging',
+\$aliases[\"staging\"] = array (
+  \"root\" => \"$stagingWebRootDir/$stagingSiteName/$siteRootDir\",
+  \"uri\" => \"http://$stagingSiteUrl\",
+  \"#name\" => \"staging\",
   // FQDN or IP of server hosting site (think ssh user@remote-host) 
-  'remote-host' => '5.79.12.110',
+  \"remote-host\" => \"$stagingHostIp\",
   // A user on the remote host for which you have an ssh key set up 
-  'remote-user' => 'root'
-);
+  \"remote-user\" => \"root\",
+  \"path-aliases\" => array(
+    \"%dump-dir\" => \"$stagingWebRootDir/$stagingSiteName/$privateDir/drush_dump\",
+  )
+);"
+
+echo $sudoPassword | sudo -S bash -c "echo '$drushrcText' > ./$siteRootDir/sites/all/drush/$siteName.aliases.drushrc.php.test"
