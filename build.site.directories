@@ -29,6 +29,11 @@ if [[ -d ./$siteRootDir/sites/default/files ]]; then
     echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$siteRootDir/sites/default/files
 fi
 
+if [[ !-d ./sites ]]; then
+    mv ./$siteRootDir/sites -R ./
+fi
+ln -s ./sites ./$siteRootDir/sites
+
 mkdir ./$privateDir
 mkdir ./$privateDir/drush_dump
 

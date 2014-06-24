@@ -1,8 +1,8 @@
 #!/bin/bash
 
-# This script syncs a new local drupal install with staging
+# This script creates site specific drush alias file
 # it should be run from your new site root directory with:
-# $ ./build/build.site.sync
+# $ ./build/build.drush.sync
 
 #read config
 CONFIG_FILE=./build/build.site.conf
@@ -22,7 +22,7 @@ if [[ -z $sudoPassword ]]; then
 fi
 
 
-echo "fetching common drush files from git repo..."
+echo "copying common drush files..."
 cp ./build/drush ./$siteRootDir/sites/all/ -R
 
 echo "creating site specific drush file..."
