@@ -33,7 +33,7 @@ if [[ ! -d ./sites ]]; then
     mv ./$siteRootDir/sites ./
 fi
 
-ln -s ./sites ./$siteRootDir/sites
+ln -s ../sites ./$siteRootDir/sites
 
 mkdir ./$privateDir
 mkdir ./$privateDir/drush_dump
