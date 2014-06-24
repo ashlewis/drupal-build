@@ -4,6 +4,11 @@
 # it should be run from your new site root directory and run with:
 # $ ./build/build.site
 
+# scenarios
+# -------------
+# 1) new install (generate makefile, create db, install drupal, update file permissions, create vhosts)
+# 2) pickup ()
+# 3) update (generate makefile, install drupal, update file permissions)
 
 CONFIG_FILE=./build/build.site.conf
 
@@ -24,7 +29,7 @@ echo "creating drupal install..."
 ./build/build.site.drupal $sudoPassword
 
 echo "updating file permissions..."
-./build/build.site.perm $sudoPassword
+./build/build.site.directories $sudoPassword
 
 echo "creating vhosts..."
 ./build/build.site.vhost $sudoPassword
