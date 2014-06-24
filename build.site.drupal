@@ -21,6 +21,10 @@ if [[ -z $sudoPassword ]]; then
     read -s sudoPassword
 fi
 
+# remove existing site @TODO: conditionally
+rm -rf ./$siteRootDir
+rm -rf ./$privateDir
+
 # make
 echo "running make..."
 
