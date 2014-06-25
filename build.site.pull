@@ -17,14 +17,11 @@ if [[ $REPLY =~ ^[Yy]$ ]]
 then
     cd $siteRootDir;
 
-    echo "clearing staging cache..."
-    drush @$siteName.staging cc all
-
     echo "backing up db..."
-    drush sql-dump --result-file=../$privateDir/drush.dump.sql
+    drush sql-dump --result-file=../$privateDir/drush.dump.sql --structure-tables-key=common
 
     echo "sync'ing db..."
-    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword
+    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common
 
     echo "sync'ing files..."
     drush -y rsync @$siteName.staging:%files/ @$siteName.dev:%files/
