@@ -22,5 +22,7 @@ $options['ssh-options'] = '-o PasswordAuthentication=no';
  */
 $command_specific['rsync'] = array(
     'exclude-paths' => '.htaccess:robots.txt:*/config.rb',
-    'mode' => 'rlptzO'
+    'mode' => 'rlptzO',
+    'verbose' => TRUE,
+    'no-perms' => TRUE
 );

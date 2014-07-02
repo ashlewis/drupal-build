@@ -6,14 +6,21 @@
 
 # scenarios
 # -------------
-# 1) new install (generate makefile, create db, install drupal, update file permissions, create vhosts)
-# 2) pickup ()
-# 3) update (generate makefile, install drupal, update file permissions)
+# 1) new install / pickup (generate makefile, create db, make makefile, install drupal, update file permissions, create vhosts)
+# 2) update (generate makefile, make makefile, update file permissions)
 
-CONFIG_FILE=./build/build.site.conf
+DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+CONFIG_FILE=$DIR/../build.site.conf
 
 if [[ -f $CONFIG_FILE ]]; then
     . $CONFIG_FILE
+fi
+
+ENV_CONFIG_FILE=$DIR/../build/build.site.conf.env
+
+if [[ -f $ENV_CONFIG_FILE ]]; then
+    . $ENV_CONFIG_FILE
 fi
 
 echo "Enter root user password (for sudo)"
