@@ -28,7 +28,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     drush @$siteName.staging sql-dump --result-file=../$privateDir/drush.dump.sql --structure-tables-key=common
 
     echo "sync'ing db..."
-    drush -y sql-sync  @$siteName.dev @$siteName.staging --no-cache --create-db --structure-tables-key=common
+    drush -y sql-sync  @$siteName.dev @$siteName.staging --no-cache --create-db --db-su=root --structure-tables-key=common
 
     echo "sync'ing files..."
     drush -y rsync @$siteName.dev @$siteName.staging
