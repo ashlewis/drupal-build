@@ -1,4 +1,4 @@
-#!/bin/bash
+    #!/bin/bash
 
 # This script creates new vhost
 # it should be run from your new site root directory with:
@@ -13,7 +13,7 @@ if [[ -f $CONFIG_FILE ]]; then
     . $CONFIG_FILE
 fi
 
-ENV_CONFIG_FILE=$DIR/../build/build.site.conf.env
+ENV_CONFIG_FILE=$DIR/../build.site.conf.env
 
 if [[ -f $ENV_CONFIG_FILE ]]; then
     . $ENV_CONFIG_FILE
@@ -50,8 +50,8 @@ else
     echo $sudoPassword | sudo -S bash -c "echo '$vhostText' > /etc/apache2/sites-available/$siteUrl.conf"
 
     # Enable the site
-    echo $sudoPassword | sudo -S a2ensite $siteUrl
-    #echo $sudoPassword | sudo -S ln -s  /etc/apache2/sites-available/$siteUrl.conf /etc/apache2/sites-enabled/$siteUrl.conf
+    #echo $sudoPassword | sudo -S a2ensite $siteUrl
+    echo $sudoPassword | sudo -S ln -s  /etc/apache2/sites-available/$siteUrl.conf /etc/apache2/sites-enabled/$siteUrl.conf
 
     # Reload Apache2
     echo $sudoPassword | sudo -S bash -c "/etc/init.d/apache2 restart"

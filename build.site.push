@@ -13,7 +13,7 @@ if [[ -f $CONFIG_FILE ]]; then
     . $CONFIG_FILE
 fi
 
-ENV_CONFIG_FILE=$DIR/../build/build.site.conf.env
+ENV_CONFIG_FILE=$DIR/../build.site.conf.env
 
 if [[ -f $ENV_CONFIG_FILE ]]; then
     . $ENV_CONFIG_FILE
