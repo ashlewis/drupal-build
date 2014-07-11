@@ -31,3 +31,5 @@ projects[s8080][download][url] = "https://github.com/ashlewis/'$distro'.git"\n
 projects[s8080][download][tag] = "'$profileVersion'"'
 
 echo -e $makeFileText > ./build/build.site.make
+
+cp ./build/site.make .

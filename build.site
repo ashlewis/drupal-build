@@ -27,16 +27,16 @@ echo "Enter root user password (for sudo)"
 read -s sudoPassword
 
 echo "generating makefile..."
-./build/build.site.make.generate
+$devSiteRootDir/build/build.site.make.generate
 
 echo "creating db..."
-./build/build.site.db
+$devSiteRootDir/build/build.site.db
 
 echo "creating drupal install..."
-./build/build.site.drupal $sudoPassword
+$devSiteRootDir/build/build.site.drupal $sudoPassword
 
 echo "updating file permissions..."
-./build/build.site.directories $sudoPassword
+$devSiteRootDir/build/build.site.directories $sudoPassword
 
 echo "creating vhosts..."
-./build/build.site.vhost $sudoPassword
+$devSiteRootDir/build/build.site.vhost $sudoPassword

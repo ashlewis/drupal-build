@@ -36,7 +36,7 @@ rm -rf ./modules/contrib
 echo "running make..."
 
 # site contrib update
-drush make --working-copy --concurrency=5 ./site.make  --no-core --contrib-destination=./modules/contrib
+drush -y make --working-copy --concurrency=5 ./site.make  --no-core --contrib-destination=./modules/contrib
 
 # make
 echo "running updates..."
