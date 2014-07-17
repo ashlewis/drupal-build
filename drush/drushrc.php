@@ -24,5 +24,6 @@ $command_specific['rsync'] = array(
     'exclude-paths' => '.htaccess:robots.txt:*/config.rb',
     'mode' => 'rlptzO',
     'verbose' => TRUE,
-    'no-perms' => TRUE
+    'no-perms' => TRUE,
+    'delete' => TRUE
 );
