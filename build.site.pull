@@ -2,8 +2,7 @@
 
 # This script pulls db and files from staging
 # it should be run from your new site root directory and run with:
-# $ ./build/build.site.pull
-
+# $ ./build/build.site.pull source_env(optional, default=staging) dest_env(optional, default=dev)
 
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
@@ -19,7 +18,11 @@ if [[ -f $ENV_CONFIG_FILE ]]; then
     . $ENV_CONFIG_FILE
 fi
 
-read -p "This will overwrite local files and db with that from staging - Are you sure? " -n 1 -r
+# get command line args or use default values
+SOURCE=${1:-staging}
+DEST=${2:-dev}
+
+read -p "This will overwrite $DEST files and db with that from $SOURCE - Are you sure? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     cd $siteRootDir;
@@ -28,10 +31,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     drush sql-dump --result-file=../$privateDir/drush.dump.sql --structure-tables-key=common
 
     echo "sync'ing db..."
-    drush -y sql-sync @$siteName.staging @$siteName.dev --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common --sanitize
+    drush -y sql-sync @$siteName.$SOURCE @$siteName.$DEST --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common --sanitize
 
     echo "sync'ing files..."
-    drush -y rsync @$siteName.staging:%files/ @$siteName.dev:%files/
+    drush -y rsync @$siteName.$SOURCE:%files/ @$siteName.$DEST:%files/
 
     echo "setting admin password..."
     drush upwd s8080_admin --password=password
