@@ -31,7 +31,7 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     drush sql-dump --result-file=../$privateDir/drush.dump.sql --structure-tables-key=common
 
     echo "sync'ing db..."
-    drush -y sql-sync @$siteName.$SOURCE @$siteName.$DEST --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common --sanitize --confirm-sanitizations
+    drush sql-sync @$siteName.$SOURCE @$siteName.$DEST --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common --sanitize --confirm-sanitizations
 
     echo "sync'ing files..."
     drush -y rsync @$siteName.$SOURCE:%files/ @$siteName.$DEST:%files/
