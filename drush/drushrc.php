@@ -21,7 +21,7 @@ $options['ssh-options'] = '-o PasswordAuthentication=no';
  * NOTE: symlinks should be created on each environment e.g. .htaccess -> .htacess.staging and robots.txt -> robots.staging.txt
  */
 $command_specific['rsync'] = array(
-    'exclude-paths' => '.htaccess:robots.txt:*/config.rb',
+    'exclude-paths' => '.htaccess:robots.txt:*/config.rb:\$tf/:*/\$tf/',
     'mode' => 'rlptzO',
     'verbose' => TRUE,
     'no-perms' => TRUE,
