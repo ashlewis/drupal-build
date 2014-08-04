@@ -24,8 +24,10 @@ echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     cd $siteRootDir;
 
+    NOW=`date +%Y-%m-%d-%H-%M-%S` 
+
     echo "backing up db..."
-    drush @$siteName.staging sql-dump --result-file=../$privateDir/drush.dump.sql --structure-tables-key=common
+    drush @$siteName.staging sql-dump --result-file=../$privateDir/drush.dump.$NOW.sql --structure-tables-key=common
 
     echo "sync'ing db..."
     drush -y sql-sync  @$siteName.dev @$siteName.staging --no-cache --create-db --db-su=root --structure-tables-key=common
