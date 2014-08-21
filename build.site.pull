@@ -22,7 +22,7 @@ fi
 SOURCE=${1:-staging}
 DEST=${2:-dev}
 
-read -p "This will overwrite $DEST files and db with that from $SOURCE - Are you sure? " -n 1 -r
+read -p "This will overwrite $DEST files directory and db with that from $SOURCE - Are you sure? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
     cd $siteRootDir;
@@ -36,7 +36,10 @@ if [[ $REPLY =~ ^[Yy]$ ]]; then
     drush sql-sync @$siteName.$SOURCE @$siteName.$DEST --no-cache --create-db --db-su=$mysqlUser --db-su-pw=$mysqlPassword --structure-tables-key=common --sanitize --confirm-sanitizations
 
     echo "sync'ing files..."
-    drush -y rsync @$siteName.$SOURCE:%files/ @$siteName.$DEST:%files/
+    drush -y rsync @$siteName.$SOURCE:%files @$siteName.$DEST:%files
+
+    echo "sync'ing private upload files..."
+    drush -y rsync @$siteName.$SOURCE:%private-uploads @$siteName.$DEST:%private-uploads
 
     echo "setting admin password..."
     drush upwd $accountName --password=password

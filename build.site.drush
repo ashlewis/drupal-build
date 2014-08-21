@@ -43,6 +43,7 @@ drushrcText="<?php
   \"#name\" => \"dev\",
   \"path-aliases\" => array(
     \"%dump-dir\" => \"$devWebRootDir/$siteName/$privateDir/drush_dump\",
+    \"%files\" => \"sites/default/files\",
   )
 );
 
@@ -56,6 +57,7 @@ drushrcText="<?php
   \"remote-user\" => \"root\",
   \"path-aliases\" => array(
     \"%dump-dir\" => \"$stagingWebRootDir/$stagingSiteName/$privateDir/drush_dump\",
+    \"%files\" => \"sites/default/files\",
   )
 );"
 

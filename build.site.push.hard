@@ -1,0 +1,41 @@
+#!/bin/bash
+
+# This script pushes db and code files from dev to staging
+# it should be run from your new site root directory and run with:
+# $ ./build/build.site.push
+
+
+DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+CONFIG_FILE=$DIR/../build.site.conf
+
+if [[ -f $CONFIG_FILE ]]; then
+    . $CONFIG_FILE
+fi
+
+ENV_CONFIG_FILE=$DIR/../build.site.conf.env
+
+if [[ -f $ENV_CONFIG_FILE ]]; then
+    . $ENV_CONFIG_FILE
+fi
+
+read -p "This will overwrite staging site and db with that from dev - Are you *absolutely* sure? " -n 1 -r
+echo    # (optional) move to a new line
+if [[ $REPLY =~ ^[Yy]$ ]]; then
+    cd $siteRootDir;
+
+    NOW=`date +%Y-%m-%d-%H-%M-%S` 
+
+    echo "backing up db..."
+    drush @$siteName.staging sql-dump --result-file=../$privateDir/drush.dump.$NOW.sql --structure-tables-key=common
+
+    echo "sync'ing db..."
+    drush -y sql-sync  @$siteName.dev @$siteName.staging --no-cache --create-db --db-su=root --structure-tables-key=common
+
+    echo "sync'ing files..."
+    drush -y rsync @$siteName.dev @$siteName.staging
+
+    echo "clearing cache..."
+    drush @$siteName.staging cc all
+
+fi
