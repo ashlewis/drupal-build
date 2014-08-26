@@ -19,7 +19,13 @@ if [[ -f $ENV_CONFIG_FILE ]]; then
     . $ENV_CONFIG_FILE
 fi
 
+# determine OS centos|ubuntu
+OS=$(/bin/bash "${DIR}/build.site.os")
+
 if [[ -f /etc/apache2/sites-available/$siteUrl.conf ]]; then
+    echo "vhosts already exist - nothing to do here"
+
+elif [[ -f /etc/httpd/conf.d/$siteUrl.conf ]]; then
     echo "vhosts already exist - nothing to do here"
     
 else
@@ -47,14 +53,25 @@ else
             </Directory>
     </VirtualHost>'
 
-    echo $sudoPassword | sudo -S bash -c "echo '$vhostText' > /etc/apache2/sites-available/$siteUrl.conf"
+    if [ "${OS}" == 'debian' ] || [ "${OS}" == 'ubuntu' ]; then
 
-    # Enable the site
-    #echo $sudoPassword | sudo -S a2ensite $siteUrl
-    echo $sudoPassword | sudo -S ln -s  /etc/apache2/sites-available/$siteUrl.conf /etc/apache2/sites-enabled/$siteUrl.conf
+        echo $sudoPassword | sudo -S bash -c "echo '$vhostText' > /etc/apache2/sites-available/$siteUrl.conf"
 
-    # Reload Apache2
-    echo $sudoPassword | sudo -S bash -c "/etc/init.d/apache2 restart"
+        # Enable the site
+        echo $sudoPassword | sudo -S ln -s  /etc/apache2/sites-available/$siteUrl.conf /etc/apache2/sites-enabled/$siteUrl.conf
+
+        # Reload Apache2
+        echo $sudoPassword | sudo -S bash -c "/etc/init.d/apache2 restart"
+
+    elif [[ "${OS}" == 'centos' ]]; then
+        
+        echo $sudoPassword | sudo -S bash -c "echo '$vhostText' > /etc/httpd/conf.d/$siteUrl.conf"
+
+        # Reload Apache2
+        echo $sudoPassword | sudo -S bash -c "service httpd restart"
+    fi
+
+    
 
     echo "add <your_ip> $siteUrl and <your_ip> www.$siteUrl to your host OS' host file and boom your new site is available at http://$siteUrl and http://www.$siteUrl"
 
