@@ -30,17 +30,21 @@ if [[ -z $sudoPassword ]]; then
 fi
 
 # remove existing site @TODO: conditionally
-rm -rf ./profile
+echo "deleting existing profile dir..."
+rm -rf ./profiles/s8080
 
 # @TODO: conditionally
-echo "sync'ing from staging..."
-$DIR/../build/build.site.pull
+#echo "sync'ing from staging..."
+#$DIR/../build/build.site.pull
 
 # make
 echo "running make..."
 
 # profile update
 drush make --working-copy --concurrency=5 ./build/build.site.make --no-core --contrib-destination=./profile
+
+# enter root dir
+cd ./$siteRootDir
 
 # make
 echo "running updates..."

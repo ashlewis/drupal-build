@@ -45,6 +45,14 @@ fi
 
 ln -s ../sites ./$siteRootDir/sites
 
+if [[ ! -d ./profiles ]]; then
+    mv ./$siteRootDir/profiles ./
+else 
+    rm -rf ./$siteRootDir/profiles
+fi
+
+ln -s ../profiles ./$siteRootDir/profiles
+
 mkdir ./$privateDir
 mkdir ./$privateDir/drush_dump
 
