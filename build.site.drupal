@@ -7,17 +7,7 @@
 #read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 # if password is passed as arg from parent script - use that, otherwise - request user entry
 if [[ -n $1 ]]; then
@@ -30,18 +20,18 @@ if [[ -z $sudoPassword ]]; then
 fi
 
 # remove existing site @TODO: conditionally
-rm -rf ./$siteRootDir
-rm -rf ./$privateDir
+rm -rf $devRootDir/$webDir
+rm -rf $devRootDir/$privateDir
 
 # make
 echo "running make..."
 
 # full install
-drush make --working-copy --concurrency=5 ./build/build.site.make ./$siteRootDir/
-drush make --working-copy --concurrency=5 ./site.make --no-core --contrib-destination=./modules/contrib
+drush -y make --working-copy --concurrency=5 $devRootDir/build/build.site.make $devRootDir/$webDir/
+drush -y make --working-copy --concurrency=5 $devRootDir/site.make --no-core --contrib-destination=$devRootDir/modules/contrib
 
 # core update
-#drush make --working-copy --concurrency=5 ./build/build.site.make ./$siteRootDir/  --no-recursion
+#drush make --working-copy --concurrency=5 ./build/build.site.make ./$webDir/  --no-recursion
 
 # profile update
 #drush make --working-copy --concurrency=5 ./build/build.site.make --no-core --contrib-destination=./$privateDir
@@ -50,7 +40,7 @@ drush make --working-copy --concurrency=5 ./site.make --no-core --contrib-destin
 #drush make --working-copy --concurrency=5 ./site.make  --no-core --contrib-destination=./modules_custom
 
 # enter root dir
-cd ./$siteRootDir
+cd $devRootDir/$webDir
 
 # install
 

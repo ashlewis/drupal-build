@@ -7,17 +7,7 @@
 # read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 # if password is passed as arg from parent script - use that, otherwise - request user entry
 if [[ -n $1 ]]; then
@@ -30,32 +20,32 @@ if [[ -z $sudoPassword ]]; then
 fi
 
 # file system
-echo $sudoPassword | sudo -S chown -R $linuxDevUser:$linuxApacheUser ./$siteRootDir
+echo $sudoPassword | sudo -S chown -R $linuxDevUser:$linuxApacheUser $devRootDir/$webDir
 
 
-if [[ -d ./$siteRootDir/sites/default/files ]]; then
-    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$siteRootDir/sites/default/files
+if [[ -d $devRootDir/$webDir/sites/default/files ]]; then
+    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser $devRootDir/$webDir/sites/default/files
 fi
 
-if [[ ! -d ./sites ]]; then
-    mv ./$siteRootDir/sites ./
+if [[ ! -d $devRootDir/sites ]]; then
+    mv $devRootDir/$webDir/sites $devRootDir/
 else 
-    rm -rf ./$siteRootDir/sites
+    rm -rf $devRootDir/$webDir/sites
 fi
 
-ln -s ../sites ./$siteRootDir/sites
+ln -s $devRootDir/sites $devRootDir/$webDir/sites
 
-if [[ ! -d ./profiles ]]; then
-    mv ./$siteRootDir/profiles ./
+if [[ ! -d $devRootDir/profiles ]]; then
+    mv $devRootDir/$webDir/profiles $devRootDir/
 else 
-    rm -rf ./$siteRootDir/profiles
+    rm -rf $devRootDir/$webDir/profiles
 fi
 
-ln -s ../profiles ./$siteRootDir/profiles
+ln -s $devRootDir/profiles $devRootDir/$webDir/profiles
 
-mkdir ./$privateDir
-mkdir ./$privateDir/drush_dump
+mkdir $devRootDir/$privateDir
+mkdir $devRootDir/$privateDir/drush_dump
 
-if [[ -d ./$privateDir ]]; then
-    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser ./$privateDir
+if [[ -d $devRootDir/$privateDir ]]; then
+    echo $sudoPassword | sudo -S chown -R $linuxApacheUser:$linuxDevUser $devRootDir/$privateDir
 fi

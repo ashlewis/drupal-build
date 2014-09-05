@@ -1,42 +1,41 @@
+# ----------------------------------
 # Global configuration
+
+# this should be commited to repo
 # ----------------------------------
 
 # Distro
 # ----------
-drupalCoreVersion="7.28"
+drupalCoreVersion="7.31"
 distro="s8080"
 profileVersion="v0.0.5"
 
 
-# drupal site name and name of top level directory where site will live
-siteName="site"
-
-# drupal super user account name
-accountName="admin"
-
-# drupal super user account password
-accountPassword="password"
+# Drupal
+# ----------
+siteName="site"                 # drupal site name and name of top level directory where site will live
+accountName="admin"             # drupal super user account name
+accountPassword="password"      # drupal super user account password
 
 
-stagingWebRootDir="/var/www/vhosts"
-stagingSiteUrl="figo.mypreviewurl.co.uk"
-stagingSiteName="figo.mypreviewurl.co.uk"
+# Staging
+# ----------
+stagingRootDir="/var/www/vhosts/site"
+stagingSiteUrl="site.mypreviewurl.co.uk"
 stagingHostIp="5.79.12.110"
 
-prodWebRootDir="/var/www"
+
+# Prod
+# ----------
+prodRootDir=""
 prodSiteUrl=""
-prodSiteName=""
 prodHostIp=""
 
 
+# Directories
+# ----------
+webDir="httpdocs"                      # drupal webroot directory
+privateDir="private"                   # drupal private file directory
+webDirMultisite="multisite/httpdocs"   # drupal webroot directory (if site is a multisite installation) ??
 
-
-# these could probaly be constants really
-# drupal webroot directory
-siteRootDir="httpdocs"
-
-# drupal private file directory
-privateDir="private"
-
-# drupal webroot directory (if site is a multisite installation)
-siteRootDirMultisite="multisite/httpdocs"
+# (these could probaly be constants really)

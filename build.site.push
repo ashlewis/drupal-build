@@ -7,22 +7,12 @@
 
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 read -p "This will overwrite staging site with that from dev - Are you *absolutely* sure? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    cd $siteRootDir;    
+    cd $devRootDir/$webDir;    
 
     echo "sync'ing files..."
     drush -y rsync @$siteName.dev @$siteName.staging --exclude-files

@@ -7,17 +7,7 @@
 # read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 
 echo 'generating makefile...'
@@ -30,6 +20,6 @@ projects[s8080][download][type] = "git"\n
 projects[s8080][download][url] = "https://github.com/ashlewis/'$distro'.git"\n
 projects[s8080][download][tag] = "'$profileVersion'"'
 
-echo -e $makeFileText > ./build/build.site.make
+echo -e $makeFileText > $devRootDir/build/build.site.make
 
-cp ./build/site.make .
+cp $devRootDir/build/site.make $devRootDir

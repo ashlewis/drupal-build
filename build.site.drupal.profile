@@ -2,22 +2,12 @@
 
 # This script creates new drupal install
 # it should be run from your new site root directory with:
-# $ ./build/build.site.drupal
+# $ ./build/build.site.profile
 
 #read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 # if password is passed as arg from parent script - use that, otherwise - request user entry
 if [[ -n $1 ]]; then
@@ -31,7 +21,7 @@ fi
 
 # remove existing site @TODO: conditionally
 echo "deleting existing profile dir..."
-rm -rf ./profiles/s8080
+rm -rf $devRootDir/profiles/s8080
 
 # @TODO: conditionally
 #echo "sync'ing from staging..."
@@ -41,10 +31,10 @@ rm -rf ./profiles/s8080
 echo "running make..."
 
 # profile update
-drush make --working-copy --concurrency=5 ./build/build.site.make --no-core --contrib-destination=./profile
+drush make --working-copy --concurrency=5 $devRootDir/build/build.site.make --no-core --contrib-destination=$devRootDir/profile
 
 # enter root dir
-cd ./$siteRootDir
+cd $devRootDir/$webDir
 
 # make
 echo "running updates..."

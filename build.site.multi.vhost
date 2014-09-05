@@ -7,17 +7,7 @@
 # read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 
 # if password is passed as arg from parent script - use that, otherwise - request user entry
@@ -32,10 +22,10 @@ fi
 
 # create vhost config entry
 vhostText='<VirtualHost *:80>
-       DocumentRoot /var/www/'$siteRootDirMultisite'/
+       DocumentRoot /var/www/'$webDirMultisite'/
        ServerName '$siteUrl'
          ServerAlias www.'$siteUrl'
-        <Directory /var/www/'$siteRootDirMultisite'/>
+        <Directory /var/www/'$webDirMultisite'/>
                 Options +Indexes +FollowSymLinks +MultiViews +Includes
                 AllowOverride All
                 Order allow,deny

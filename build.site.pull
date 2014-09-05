@@ -6,17 +6,7 @@
 
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 # get command line args or use default values
 SOURCE=${1:-staging}
@@ -25,7 +15,7 @@ DEST=${2:-dev}
 read -p "This will overwrite $DEST files directory and db with that from $SOURCE - Are you sure? " -n 1 -r
 echo    # (optional) move to a new line
 if [[ $REPLY =~ ^[Yy]$ ]]; then
-    cd $siteRootDir;
+    cd $devRootDir/$webDir;
 
     NOW=`date +%Y-%m-%d-%H-%M-%S` 
 

@@ -2,21 +2,13 @@
 
 # This script deletes unrequired txt files from drupal install
 # it should be run from your new site root directory and run with:
-# $ ./build/build.site.cleantxt
+# $ ./build/build.site.remove-txt-files
 
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
+. $DIR/build.site.conf.incl
 
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+cd $devRootDir/$webDir/
 
 echo "Deleting unrequired txt files from drupal install (e.g. CHANGELOG.txt, COPYRIGHT.txt, etc.)"
 rm CHANGELOG.txt COPYRIGHT.txt INSTALL.mysql.txt INSTALL.pgsql.txt INSTALL.sqlite.txt INSTALL.txt LICENSE.txt MAINTAINERS.txt README.txt UPGRADE.txt sites/all/modules/README.txt sites/all/themes/README.txt

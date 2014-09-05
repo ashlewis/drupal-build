@@ -7,17 +7,7 @@
 #read config
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 # if password is passed as arg from parent script - use that, otherwise - request user entry
 if [[ -n $1 ]]; then
@@ -31,24 +21,25 @@ fi
 
 
 echo "copying common drush files..."
-cp ./build/drush ./$siteRootDir/sites/all/ -R
+cp $devRootDir/build/drush $devRootDir/$webDir/sites/all/ -R
 
 echo "creating site specific drush file..."
 
 drushrcText="<?php
 
 \$aliases[\"dev\"] = array (
-  \"root\" => \"$devWebRootDir/$siteName/$siteRootDir\",
+  \"root\" => \"$devRootDir/$webDir\",
   \"uri\" => \"http://$siteUrl\",
   \"#name\" => \"dev\",
   \"path-aliases\" => array(
-    \"%dump-dir\" => \"$devWebRootDir/$siteName/$privateDir/drush_dump\",
+    \"%dump-dir\" => \"$devRootDir/$privateDir/drush_dump\",
     \"%files\" => \"sites/default/files\",
+    \"%private-files\" => \"$devRootDir/$privateDir/files\"
   )
 );
 
 \$aliases[\"staging\"] = array (
-  \"root\" => \"$stagingWebRootDir/$stagingSiteName/$siteRootDir\",
+  \"root\" => \"$stagingRootDir/$webDir\",
   \"uri\" => \"http://$stagingSiteUrl\",
   \"#name\" => \"staging\",
   // FQDN or IP of server hosting site (think ssh user@remote-host) 
@@ -56,9 +47,10 @@ drushrcText="<?php
   // A user on the remote host for which you have an ssh key set up 
   \"remote-user\" => \"root\",
   \"path-aliases\" => array(
-    \"%dump-dir\" => \"$stagingWebRootDir/$stagingSiteName/$privateDir/drush_dump\",
+    \"%dump-dir\" => \"$stagingRootDir/$privateDir/drush_dump\",
     \"%files\" => \"sites/default/files\",
+    \"%private-files\" => \"$stagingRootDir/$privateDir/files\",
   )
 );"
 
-echo $sudoPassword | sudo -S bash -c "echo '$drushrcText' > ./$siteRootDir/sites/all/drush/$siteName.aliases.drushrc.php.test"
+echo $sudoPassword | sudo -S bash -c "echo '$drushrcText' > $devRootDir/$webDir/sites/all/drush/$siteName.aliases.drushrc.php.test"

@@ -1,0 +1,11 @@
+#!/bin/bash
+
+# This script copies default config files to root directory and renames
+# it should be run from your new site root directory and run with:
+# $ ./build/build.site.configfiles
+
+DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "Copying configuration files"
+cp $DIR/../build/build.site.conf.default $DIR/../build.site.conf
+cp $DIR/../build/build.site.conf.env.default $DIR/../build.site.conf.env
