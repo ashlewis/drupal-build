@@ -7,17 +7,7 @@
 
 DIR="$( cd -P "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
-CONFIG_FILE=$DIR/../build.site.conf
-
-if [[ -f $CONFIG_FILE ]]; then
-    . $CONFIG_FILE
-fi
-
-ENV_CONFIG_FILE=$DIR/../build.site.conf.env
-
-if [[ -f $ENV_CONFIG_FILE ]]; then
-    . $ENV_CONFIG_FILE
-fi
+. $DIR/build.site.conf.incl
 
 Q1="CREATE DATABASE IF NOT EXISTS $dbName;"
 Q2="GRANT ALL ON $dbName.* TO '$dbUser'@'localhost' IDENTIFIED BY '$dbPassword';"
