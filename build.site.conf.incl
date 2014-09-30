@@ -21,5 +21,3 @@ ENV_CONFIG_FILE=$DIR/../build.site.conf.env
 if [[ -f $ENV_CONFIG_FILE ]]; then
     . $ENV_CONFIG_FILE
 fi
-
-echo $ENV_CONFIG_FILE;
